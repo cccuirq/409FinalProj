@@ -1,6 +1,28 @@
-# CS 409 Final Project
+# Friend’s Fridge
 
-Minimal JavaScript frontend and backend starter. The browser fetches `GET /api/hello` and displays **Hello World**.
+A CS 409 final project about keeping track of groceries and sharing ingredients and recipes with friends.
+
+## Project idea
+
+Friend’s Fridge helps users remember what food they have and figure out what to make. Instead of entering every item manually, users will be able to upload photos of their fridge, groceries, or shopping receipts. The app will suggest ingredients, which users can review and correct before saving to their inventory.
+
+Planned features:
+
+- Personal accounts and ingredient inventories, with photo-based ingredient recognition.
+- Food and drink recipes that users can browse, save, and share with friends.
+- Friend requests and the ability to view friends’ shared ingredients.
+- A private or friends-visible setting for each ingredient.
+- Requests for small amounts of missing ingredients, which the owner can accept or decline.
+
+For example, if you are making pancakes and need an egg, you could check whether a nearby friend has one to share. The goal is to make everyday cooking easier and more social while giving users control over what others can see.
+
+## Proposal
+
+[proposal](https://docs.google.com/document/d/1UlzD680KIkKY2jyNW98FWANaL8JMyS2eL-Badco_-6Q/edit?tab=t.0)
+
+## Current status
+
+The project currently has a working Hello World starter: a JavaScript frontend fetches `GET /api/hello` from a Node.js backend. The features above are planned and have not been implemented yet.
 
 ## Run locally
 
@@ -29,6 +51,6 @@ To use another port: `PORT=3001 npm start`.
 { "message": "Hello World" }
 ```
 
-## Remaining final-project requirements
+## Next steps
 
-This starter only verifies the frontend/API/backend connection. Next steps include choosing the application topic, assigning specific roles to 3–5 team members, adding a database and user authentication, building the application's REST resources, and conducting a heuristic evaluation followed by at least one design revision.
+Add a database and authentication, implement photo recognition and the core inventory, recipe, and friend features, and build a responsive interface. We will also conduct a heuristic evaluation and complete at least one design revision.
