@@ -1,5 +1,8 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
+import { connectDatabase } from './src/db/connection.js';
+
+const { client, db } = await connectDatabase();
 
 const port = Number(process.env.PORT || 3000);
 const publicFiles = {
@@ -20,6 +23,18 @@ const server = createServer(async (request, response) => {
   if (pathname === '/api/hello') {
     response.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
     response.end(JSON.stringify({ message: 'Hello World' }));
+    return;
+  }
+
+  if (pathname === '/api/health') {
+    try {
+      await db.command({ ping: 1 });
+      response.writeHead(200, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify({ status: 'ok', database: 'mongodb' }));
+    } catch {
+      response.writeHead(503, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify({ status: 'unavailable' }));
+    }
     return;
   }
 
@@ -44,3 +59,9 @@ const server = createServer(async (request, response) => {
 server.listen(port, '127.0.0.1', () => {
   console.log(`App running at http://127.0.0.1:${port}`);
 });
+
+for (const signal of ['SIGINT', 'SIGTERM']) {
+  process.once(signal, () => {
+    server.close(async () => { await client.close(); });
+  });
+}

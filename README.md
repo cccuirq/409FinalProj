@@ -26,7 +26,14 @@ The project currently has a working Hello World starter: a JavaScript frontend f
 
 ## Run locally
 
-Requires Node.js 22 or newer. No dependencies need to be installed.
+Requires Node.js 22 or newer and MongoDB (a replica set or Atlas for transactions). See [database setup](docs/database/README.md).
+
+```sh
+npm install
+# Copy .env.example to .env and configure the database connection.
+npm run db:init
+npm run db:seed
+```
 
 ```sh
 npm start
@@ -43,6 +50,8 @@ To use another port: `PORT=3001 npm start`.
 - `public/app.js`: frontend API request and loading/error states.
 - `public/styles.css`: responsive page styling.
 
+The planned feature directories and MongoDB database layout are documented in [docs/structure.md](docs/structure.md). MongoDB validators, indexes, ingredient seeds, and transaction repositories are implemented.
+
 ## API
 
 `GET /api/hello` returns:
@@ -53,4 +62,4 @@ To use another port: `PORT=3001 npm start`.
 
 ## Next steps
 
-Add a database and authentication, implement photo recognition and the core inventory, recipe, and friend features, and build a responsive interface. We will also conduct a heuristic evaluation and complete at least one design revision.
+Add authentication and feature APIs, implement photo recognition and the core inventory, recipe, and friend features, and build a responsive interface. We will also conduct a heuristic evaluation and complete at least one design revision.
