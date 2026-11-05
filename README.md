@@ -22,7 +22,7 @@ For example, if you are making pancakes and need an egg, you could check whether
 
 ## Current status
 
-The project currently has a working Hello World starter: a JavaScript frontend fetches `GET /api/hello` from a Node.js backend. The features above are planned and have not been implemented yet.
+The User & Friends module is implemented with a responsive frontend and MongoDB-backed APIs: registration/login/logout, profile editing, user search, friend requests, acceptance/decline, friend lists, and removal. See [User & Friends API](docs/api/user-friends.md). Inventory, recognition, recipe discovery, and sharing interfaces are still under development.
 
 ## Run locally
 
@@ -54,7 +54,9 @@ The planned feature directories and MongoDB database layout are documented in [d
 
 ## API
 
-`GET /api/hello` returns:
+See [User & Friends API](docs/api/user-friends.md) for implemented account and friendship endpoints. `GET /api/health` checks MongoDB.
+
+The original `GET /api/hello` endpoint remains available:
 
 ```json
 { "message": "Hello World" }
@@ -62,4 +64,4 @@ The planned feature directories and MongoDB database layout are documented in [d
 
 ## Next steps
 
-Add authentication and feature APIs, implement photo recognition and the core inventory, recipe, and friend features, and build a responsive interface. We will also conduct a heuristic evaluation and complete at least one design revision.
+Implement the remaining inventory, photo recognition, recipe discovery, and ingredient-sharing feature APIs and pages. We will also conduct a heuristic evaluation and complete at least one design revision.

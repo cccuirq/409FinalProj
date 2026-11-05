@@ -1,19 +1,35 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CS 409 · Hello World</title>
-    <link rel="stylesheet" href="/styles.css" />
-    <script type="module" src="/app.js"></script>
-  </head>
-  <body>
-    <main>
-      <p class="eyebrow">CS 409 / FINAL PROJECT</p>
-      <h1 id="message" aria-live="polite">Loading…</h1>
-      <p id="status">Connecting to the API…</p>
-      <button id="retry" type="button" hidden>Try again</button>
-      <noscript>Please enable JavaScript to load the message.</noscript>
-    </main>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friend's Fridge | Friends</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main>
+    <header class="brand"><a href="/">Friend's Fridge</a><span>Good food. Better together.</span></header>
+    <p id="notice" role="status" aria-live="polite"></p>
+    <section id="auth-panel">
+      <div class="intro"><p class="eyebrow">YOUR KITCHEN COMMUNITY</p><h1>A little help<br>from your friends.</h1><p>Keep your people close. Connect with friends and make everyday cooking a shared experience.</p></div>
+      <div class="card">
+        <nav class="tabs" aria-label="Account access"><button type="button" id="show-login" aria-pressed="true">Log in</button><button type="button" id="show-register" aria-pressed="false">Create account</button></nav>
+        <form id="login-form"><h2>Welcome back</h2><label>Username or email<input name="identifier" autocomplete="username" maxlength="255" required /></label><label>Password<input name="password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required /></label><button type="submit">Log in</button></form>
+        <form id="register-form" hidden><h2>Join the table</h2><label>Username<input name="username" autocomplete="username" pattern="[A-Za-z0-9_]{3,50}" minlength="3" maxlength="50" title="3-50 letters, numbers or underscores" required /></label><label>Display name<input name="display_name" autocomplete="nickname" maxlength="100" required /></label><label>Email<input name="email" type="email" autocomplete="email" maxlength="255" required /></label><label>Password<input name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required /></label><button type="submit">Create account</button></form>
+      </div>
+    </section>
+    <section id="dashboard" hidden>
+      <div class="welcome"><div><p class="eyebrow">USER &amp; FRIENDS</p><h1 id="greeting">Your community</h1></div><button type="button" id="logout" class="secondary">Log out</button></div>
+      <div class="grid">
+        <section class="card"><h2>Your profile</h2><p id="username" class="muted"></p><form id="profile-form"><label>Display name<input name="display_name" maxlength="100" required /></label><label>Email<input name="email" type="email" maxlength="255" required /></label><button type="submit">Save changes</button></form></section>
+        <section class="card"><h2>Find your friends</h2><p class="muted">Search by username (at least 2 characters).</p><form id="search-form" class="search"><label class="grow">Username<input name="q" minlength="2" maxlength="50" required /></label><button type="submit">Search</button></form><ul id="search-results" aria-label="Search results"></ul><button type="button" class="secondary" id="search-more" hidden>Load more results</button></section>
+      </div>
+      <section class="card"><div class="section-heading"><h2>Your friends</h2><button type="button" id="refresh" class="secondary">Refresh</button></div><ul id="friends-list"></ul><button type="button" class="secondary" id="friends-more" hidden>Load more friends</button></section>
+      <div class="grid"><section class="card"><h2>Incoming requests</h2><ul id="incoming-list"></ul><button type="button" class="secondary" id="incoming-more" hidden>Load more requests</button></section><section class="card"><h2>Sent requests</h2><ul id="outgoing-list"></ul><button type="button" class="secondary" id="outgoing-more" hidden>Load more requests</button></section></div>
+    </section>
+    <footer>Friend's Fridge &middot; FridgeMates / CS 409</footer>
+    <noscript>Please enable JavaScript to use accounts and friends.</noscript>
+  </main>
+</body>
 </html>

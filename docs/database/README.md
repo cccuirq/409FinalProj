@@ -1,6 +1,6 @@
 # MongoDB database
 
-The database layer uses the official MongoDB Node.js driver. There are nine collections matching the agreed data design: `users`, `ingredients`, `inventory_items`, `recipes`, `recipe_ingredients`, `saved_recipes`, `friendships`, `ingredient_requests`, and `recipe_shares`.
+The database layer uses the official MongoDB Node.js driver. There are nine business collections matching the agreed data design: `users`, `ingredients`, `inventory_items`, `recipes`, `recipe_ingredients`, `saved_recipes`, `friendships`, `ingredient_requests`, and `recipe_shares`. A tenth infrastructure collection, `sessions`, stores hashed login tokens with a TTL expiry index.
 
 ## Local setup (PowerShell)
 
@@ -17,11 +17,11 @@ npm start
 
 For Atlas, put your connection string in `MONGODB_URI` in `.env`, set `MONGODB_DB`, and skip Docker. Never commit `.env`. The Docker configuration binds to localhost and is for local development only. It starts a single-node replica set because cross-document transactions require a replica set or sharded cluster. Stop it with `docker compose down`; the named data volume is preserved.
 
-If Docker is unavailable, run `npm run db:local` in a separate terminal instead of Docker. This downloads and starts a real local MongoDB replica set on port 27017, initializes the nine collections and seeds automatically, and keeps data in the ignored `.local/mongodb/` directory. Leave that terminal running, then run `npm start` in another terminal. Stop with Ctrl+C; restart with the same command. This helper always uses the local `friends_fridge` database and is for development only. Do not run it alongside Docker MongoDB on the same port.
+If Docker is unavailable, run `npm run db:local` in a separate terminal instead of Docker. This downloads and starts a real local MongoDB replica set on port 27017, initializes the collections and seeds automatically, and keeps data in the ignored `.local/mongodb/` directory. Leave that terminal running, then run `npm start` in another terminal. Stop with Ctrl+C; restart with the same command. This helper always uses the local `friends_fridge` database and is for development only. Do not run it alongside Docker MongoDB on the same port.
 
 `db:init` creates collections, strict validators, and indexes. It can be rerun without dropping data; existing collections receive updated validators. It backfills missing ingredient `fresh_interval` fields with `null`, preserving existing values. It does not repair other invalid documents or resolve duplicate data. `db:seed` inserts 20 standard ingredients without changing existing ingredient IDs, names, or units.
 
-The server requires a working database connection at startup. `GET /api/health` pings MongoDB and returns 200 or 503. Authentication and feature HTTP endpoints are still pending; repository methods must receive user IDs from trusted authentication context when wired to routes.
+The server requires a working database connection and applies collection validators/indexes at startup. `GET /api/health` pings MongoDB and returns 200 or 503. Account and friendship endpoints are implemented; see [User & Friends API](../api/user-friends.md). Other repository methods must receive user IDs from trusted authentication context when wired to routes.
 
 ## Data conventions
 
@@ -34,7 +34,7 @@ The server requires a working database connection at startup. `GET /api/health` 
 - Ordered friendship pairs prevent reverse duplicates; validators reject self-friendship, unrelated `requested_by`, self ingredient requests, and self recipe shares.
 
 - `ingredients.fresh_interval` is a required positive integer number of days, or `null` when not specified. It is a configurable freshness estimate, not an automatic expiry or deletion timer. Seed ingredients start with `null`; no freshness durations are guessed.
-- Friendship `status` supports `pending`, `accepted`, `declined`, and `removed`. Removing a friend should change an accepted relation to `removed` and update `updated_at`, keeping the pair record. Only `accepted` grants friend access; reapplying should reuse the same pair with `pending` and the new `requested_by`. These HTTP operations are not yet implemented.
+- Friendship `status` supports `pending`, `accepted`, `declined`, and `removed`. Removing a friend should change an accepted relation to `removed` and update `updated_at`, keeping the pair record. Only `accepted` grants friend access; reapplying should reuse the same pair with `pending` and the new `requested_by`. These HTTP operations are implemented in the User & Friends API.
 
 ## Business operations
 
@@ -42,7 +42,7 @@ The server requires a working database connection at startup. `GET /api/health` 
 
 `recipeRepository(client, db).deleteOwned(actorId, recipeId)` deletes an author's recipe and its ingredient rows, saves, and shares within one transaction.
 
-MongoDB does **not** enforce foreign keys or automatic deletion cascades. Other application write paths must check referenced records and privacy rules. Friend request acceptance, recipe access/sharing, password hashing, and other CRUD APIs remain to be implemented in their feature modules. Raw collection access is not an authorization boundary. Recognition results remain drafts until confirmation; no upload collection is required yet.
+MongoDB does **not** enforce foreign keys or automatic deletion cascades. Other application write paths must check referenced records and privacy rules. Authentication, password hashing, and friend request/removal endpoints are implemented. Recipe access/sharing and the remaining feature CRUD APIs are still pending. Raw collection access is not an authorization boundary. Recognition results remain drafts until confirmation; no upload collection is required yet.
 
 ## Verification
 

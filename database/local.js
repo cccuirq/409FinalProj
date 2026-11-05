@@ -20,7 +20,7 @@ try {
   await initializeDatabase(db);
   await seedIngredients(db);
   console.log('Local MongoDB ready on 127.0.0.1:27017; database: friends_fridge.');
-  console.log('Nine collections initialized, 20 ingredients seeded. Data: .local/mongodb. Ctrl+C to stop.');
+  console.log('Collections initialized, 20 ingredients seeded. Data: .local/mongodb. Ctrl+C to stop.');
 } catch (error) {
   await replica.stop({ doCleanup: false });
   throw error;

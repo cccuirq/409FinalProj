@@ -1,6 +1,6 @@
 # Project directory structure
 
-The project uses MongoDB with nine validated collections. See [database setup](database/README.md) for connection settings, initialization, seed data, and database tests. Frontend feature directories remain scaffolding.
+The project uses MongoDB with nine validated business collections and a sessions collection. See [database setup](database/README.md) for connection settings, initialization, seed data, and database tests. The User & Friends frontend and HTTP APIs are implemented; other feature directories remain scaffolding.
 
 ```text
 409FinalProj/
@@ -58,7 +58,7 @@ The project uses MongoDB with nine validated collections. See [database setup](d
 
 | Backend module | MongoDB collections | Responsibility |
 | --- | --- | --- |
-| `auth` | `users` | Accounts, login, logout, password hashes |
+| `auth` | `users`, `sessions` | Accounts, login, logout, password hashes |
 | `ingredients` | `ingredients` | Canonical ingredient names and default units |
 | `inventory` | `inventory_items` | One row per user and ingredient; private/friends visibility |
 | `recipes` | `recipes`, `recipe_ingredients`, `saved_recipes`, `recipe_shares` | Food and drink recipes, missing ingredients, saving, explicit sharing |
@@ -66,7 +66,7 @@ The project uses MongoDB with nine validated collections. See [database setup](d
 | `ingredient-requests` | `ingredient_requests` | Request, accept, decline, cancel, and complete |
 | `recognition` | None initially | Generate suggestions; save inventory only after user confirmation |
 
-Within each backend module, add routes, controllers, services, and repository files as needed. Keep database access in repositories and business rules in services. Ingredient request transactions and recipe deletion are implemented as repository functions; authenticated feature endpoints remain to be implemented. The server checks MongoDB at startup and exposes GET /api/health. It serves its original three frontend files; new frontend assets will require static route support when implemented.
+Within each backend module, add routes, controllers, services, and repository files as needed. Keep database access in repositories and business rules in services. Ingredient request transactions and recipe deletion are implemented as repository functions; User & Friends authenticated endpoints are implemented; remaining feature endpoints are pending. The server checks MongoDB at startup and exposes GET /api/health. It serves its original three frontend files; new frontend assets will require static route support when implemented.
 
 ## Shared implementation rules
 

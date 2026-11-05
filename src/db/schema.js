@@ -19,6 +19,7 @@ function collection(properties, indexes = [], expressions = []) {
 
 export const collections = {
   users: collection({ username: text(50), email: text(255), password_hash: text(), display_name: text(100) }, [unique({ username: 1 }), unique({ email: 1 })]),
+  sessions: collection({ user_id: id, token_hash: { bsonType: 'string', pattern: '^[a-f0-9]{64}$' }, expires_at: date }, [unique({ token_hash: 1 }), index({ user_id: 1 }), { key: { expires_at: 1 }, expireAfterSeconds: 0 }]),
   ingredients: collection({ name: text(100), category: text(50), default_unit: text(20), fresh_interval: { anyOf: [quantity(1), { bsonType: 'null' }] } }, [unique({ name: 1 })]),
   inventory_items: collection({ user_id: id, ingredient_id: id, quantity: quantity(0), visibility: states('private', 'friends'), updated_at: date }, [unique({ user_id: 1, ingredient_id: 1 }), index({ user_id: 1, visibility: 1 })]),
   recipes: collection({ author_id: { anyOf: [id, { bsonType: 'null' }] }, title: text(200), description: { bsonType: 'string' }, instructions: text(), servings: { ...quantity(1), maximum: 10000 }, visibility: states('private', 'friends', 'public'), updated_at: date }, [index({ author_id: 1 }), index({ visibility: 1 })]),

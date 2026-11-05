@@ -4,5 +4,5 @@ import { initializeDatabase } from '../../src/db/schema.js';
 const { client, db } = await connectDatabase();
 try {
   await initializeDatabase(db);
-  console.log(`Initialized nine collections and indexes in ${db.databaseName}.`);
+  console.log(`Initialized collections, validators and indexes in ${db.databaseName}.`);
 } finally { await client.close(); }
